@@ -184,7 +184,7 @@ public class AdjacencyMapGraph<V extends Comparable<V>, E> implements Graph<V, E
     }
 
     public void removeVertex(Vertex<V> v) {
-        InnerVertex<V> vertex = validate(v);
+        InnerVertex<V> vertex = validate(getVertex(v.getElement()));
         for (Edge<E> edge : vertex.getOutgoing().values())
             removeEdgeV(edge);
         for (Edge<E> edge : vertex.getIncoming().values())
