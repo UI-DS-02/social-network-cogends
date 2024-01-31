@@ -16,12 +16,10 @@ public class AdjacencyMapGraph<V extends Comparable<V>, E> implements Graph<V, E
                 incoming = new HashMap<>();
             else incoming = outgoing;
         }
-
         @Override
         public V getElement() {
             return element;
         }
-
         public void setPosition(Position<Vertex<V>> position) {
             this.position = position;
         }
@@ -48,7 +46,6 @@ public class AdjacencyMapGraph<V extends Comparable<V>, E> implements Graph<V, E
             return incoming;
         }
     }
-
     class InnerEdge<E> implements Edge<E> {
         private E element;
         private Position<Edge<E>> position;
