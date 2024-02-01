@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
-import static connection.Controller.insert;
+import static connection.Controller.insertConnection;
 
-public class Person {
+public class Person implements Comparable<Person> {
     private int id;
     private String name;
     private String family;
     private String history;
-   private Map<Integer,Person>connections;
-   private Set<String>skills;
+    private Map<Integer,Person>connections;
+    private Set<String>skills;
+    private Boolean complete;
 
     public Person(int id, String name, String family, String history, Set<String> skills,ArrayList<String>new_connections) {
         this.id = id;
@@ -20,15 +21,16 @@ public class Person {
         this.family = family;
         this.history = history;
         this.skills = skills;
-        insert(new_connections);
+        this.complete=true;
+        this.connections=insertConnection(new_connections,this);
+    }
+    public Person(int id) {
+        this.id = id;
+        this.complete=false;
     }
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -58,9 +60,8 @@ public class Person {
     public Map<Integer, Person> getConnections() {
         return connections;
     }
-
-    public void setConnections(Map<Integer, Person> connections) {
-        this.connections = connections;
+    public void setConnections(ArrayList<String>new_connections) {
+        this.connections = insertConnection(new_connections,this);
     }
 
     public Set<String> getSkills() {
@@ -69,5 +70,21 @@ public class Person {
 
     public void setSkills(Set<String> skills) {
         this.skills = skills;
+    }
+
+    public Boolean getComplete() {
+        return complete;
+    }
+
+    public void setComplete(Boolean complete) {
+        this.complete = complete;
+    }
+
+    @Override
+    public int compareTo(Person o) {
+        if (this.id==o.id)
+            return 0;
+        return 1;
+
     }
 }

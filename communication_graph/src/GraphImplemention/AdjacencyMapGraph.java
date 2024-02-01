@@ -145,9 +145,13 @@ public class AdjacencyMapGraph<V extends Comparable<V>, E> implements Graph<V, E
     }
 
     public Vertex<V> insertVertex(V element) {
-        InnerVertex<V> vertex = new InnerVertex<>(element, isDirected);
-        vertex.setPosition(vertices.addLast(vertex));
-        return vertex;
+        Vertex<V> vertex0=getVertex(element);
+        if (vertex0==null){
+            InnerVertex<V> vertex = new InnerVertex<>(element, isDirected);
+            vertex.setPosition(vertices.addLast(vertex));
+            return vertex;
+        }
+        return validate(vertex0);
     }
 
     public Edge<E> insertEdge(V uElement, V vElement, E element) {
