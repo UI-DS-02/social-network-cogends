@@ -15,7 +15,7 @@ public class Controller {
     }
     public static ArrayList<Person> getSimilar(int id ,Scale scale){
         ArrayList<Person> samPerson = new ArrayList<>();
-        BFS(Model.graph,Model.graph.getVertex(new Person(id)),new HashSet<>(),samPerson);
+        BFS(Model.graph,Model.graph.getVertex(new Person(id)),new HashSet<>(),samPerson,scale);
         return samPerson;
     }
     public static void insertPerson(int id, String name, String history,String universityLocation,String field,String workplace, Set<String> specialities,ArrayList<Integer>connectionTd){
@@ -28,7 +28,7 @@ public class Controller {
             person.setComplete(true);
         }
     }
-    private static <V, E> void BFS(Graph<V, E> graph, Vertex<V> s, Set<Vertex<V>> known,ArrayList<Person> samPerson) {
+    private static <V, E> void BFS(Graph<V, E> graph, Vertex<V> s, Set<Vertex<V>> known,ArrayList<Person> samPerson,Scale scale) {
         LinkedList<Vertex<V>> level = new LinkedList<>();
         known.add(s);
         level.addLast(s);
@@ -40,7 +40,7 @@ public class Controller {
                     Vertex<V> v = graph.opposite(u,e);
                     if (!known.contains(v)){
                         known.add(v);
-                        checkConnections((Person) s.getElement(), (Person) v.getElement(),counter,samPerson);
+                        checkConnections((Person) s.getElement(), (Person) v.getElement(),counter,samPerson,scale);
                         nextLevel.addLast(v);
                     }
                 }
@@ -52,8 +52,29 @@ public class Controller {
             level=nextLevel;
         }
     }
-    private static <V, E> void checkConnections(Person s,Person v,int counter,ArrayList<Person> samPerson) {
+    private static <V, E> void checkConnections(Person s,Person v,int counter,ArrayList<Person> samPerson,Scale scale) {
 
+
+    }
+    private static int calculate(Person s,Person v,int counter,Scale scale){
+        int point=0;
+        int same_skills=0;
+        for( String str:s.getSkills())
+          if(v.getSkills().contains(str)){
+              same_skills++;
+          }
+       point+=scale.getScaleOfSimilarSkill()*same_skills;
+        if(v.getWorkplace().equalsIgnoreCase(s.getWorkplace())){
+         point+=   scale.getScaleOfWorkPlace();
+        }
+        if(v.getField().equalsIgnoreCase(s.getField())){
+            point+=scale.getScaleOfField();
+        }
+        if(v.getUniversityLocation().equalsIgnoreCase(s.getUniversityLocation())){
+            point+=scale.getScaleOfUniversity();
+        }
+        point+=(6-counter)*scale.getDegree();
+        return point;
     }
     static <V,E>int DFSComplete(Graph<V,E> g){
         Set<Vertex<V>> known = new HashSet<>();
