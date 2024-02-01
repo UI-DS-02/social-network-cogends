@@ -1,29 +1,25 @@
 package connection;
-
         import GraphImplemention.Edge;
         import GraphImplemention.Graph;
         import GraphImplemention.Vertex;
-
         import java.util.*;
-
 public class Controller {
-    public static Map<Integer,Person> insertConnection(ArrayList<String>new_connections,Person person){
+    public static Map<Integer,Person> insertConnection(ArrayList<Integer>new_connections,Person person){
         Map<Integer,Person> connections=new HashMap<>();
-        for (String str :new_connections){
-            Person person0= Model.graph.insertVertex(new Person(Integer.parseInt(str))).getElement();
+        for (Integer str :new_connections){
+            Person person0= Model.graph.insertVertex(new Person(str)).getElement();
             Model.graph.insertEdge(person,person0,0);
-            connections.put(Integer.parseInt(str),person0);
+            connections.put(str,person0);
         }
         return connections;
     }
-    public static void insertPerson(int id, String name, String family, String history, Set<String> skills,ArrayList<String>new_connections){
-        Person person =Model.graph.insertVertex(new Person(id,name,family,history,skills,new_connections)).getElement();
+    public static void insertPerson(int id, String name, String history,String universityLocation,String field,String workplace, Set<String> specialities,ArrayList<Integer>connectionTd){
+        Person person =Model.graph.insertVertex(new Person(id,name,history,universityLocation,field,workplace,specialities,connectionTd)).getElement();
         if (!person.getComplete()){
             person.setName(name);
-            person.setFamily(family);
             person.setHistory(history);
-            person.setSkills(skills);
-            person.setConnections(new_connections);
+            person.setSkills(specialities);
+            person.setConnections(connectionTd);
             person.setComplete(true);
         }
     }
