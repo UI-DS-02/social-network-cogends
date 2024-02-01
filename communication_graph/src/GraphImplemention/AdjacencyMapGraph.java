@@ -180,7 +180,8 @@ public class AdjacencyMapGraph<V extends Comparable<V>, E> implements Graph<V, E
             origin.getOutgoing().put(v, edge);
             dest.getIncoming().put(u, edge);
             return edge;
-        } else throw new IllegalArgumentException("edge from u to v exists");
+        }
+        return null;
     }
 
     public void removeVertex(Vertex<V> v) {
