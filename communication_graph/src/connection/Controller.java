@@ -13,8 +13,8 @@ public class Controller {
         }
         return connections;
     }
-    public static ArrayList<Person> getSimilar(int id ,Scale scale){
-        ArrayList<Person> samPerson = new ArrayList<>();
+    public static ArrayList<Point_person> getSimilar(int id ,Scale scale){
+        ArrayList<Point_person> samPerson = new ArrayList<>();
         BFS(Model.graph,Model.graph.getVertex(new Person(id)),new HashSet<>(),samPerson,scale);
         return samPerson;
     }
@@ -28,7 +28,7 @@ public class Controller {
             person.setComplete(true);
         }
     }
-    private static <V, E> void BFS(Graph<V, E> graph, Vertex<V> s, Set<Vertex<V>> known,ArrayList<Person> samPerson,Scale scale) {
+    private static <V, E> void BFS(Graph<V, E> graph, Vertex<V> s, Set<Vertex<V>> known,ArrayList<Point_person> samPerson,Scale scale) {
         LinkedList<Vertex<V>> level = new LinkedList<>();
         known.add(s);
         level.addLast(s);
@@ -52,9 +52,24 @@ public class Controller {
             level=nextLevel;
         }
     }
-    private static <V, E> void checkConnections(Person s,Person v,int counter,ArrayList<Person> samPerson,Scale scale) {
-
-
+    private static <V, E> void checkConnections(Person s,Person v,int counter,ArrayList<Point_person> samPerson,Scale scale) {
+        int point = calculate(s,v,counter,scale);
+        Point_person pointPerson = new Point_person(point,v);
+        samPerson.add(pointPerson);
+        Comparator<Point_person> comparator = new Comparator<Point_person>() {
+            @Override
+            public int compare(Point_person o1, Point_person o2) {
+                if(o1.getPoint()==o2.getPoint())
+                    return 0;
+                if (o1.getPoint()>o2.getPoint())
+                    return 1;
+                else return -1;
+            }
+        };
+        samPerson.sort(comparator);
+        if (samPerson.size()>20){
+            samPerson.remove(0);
+        }
     }
     private static int calculate(Person s,Person v,int counter,Scale scale){
         int point=0;
