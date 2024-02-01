@@ -13,6 +13,11 @@ public class Controller {
         }
         return connections;
     }
+    public static ArrayList<Person> getSimilar(int id ,Scale scale){
+        ArrayList<Person> samPerson = new ArrayList<>();
+        BFS(Model.graph,Model.graph.getVertex(new Person(id)),new HashSet<>(),samPerson);
+        return samPerson;
+    }
     public static void insertPerson(int id, String name, String history,String universityLocation,String field,String workplace, Set<String> specialities,ArrayList<Integer>connectionTd){
         Person person =Model.graph.insertVertex(new Person(id,name,history,universityLocation,field,workplace,specialities,connectionTd)).getElement();
         if (!person.getComplete()){
@@ -23,12 +28,11 @@ public class Controller {
             person.setComplete(true);
         }
     }
-    private static <V, E> int BFS(Graph<V, E> graph, Vertex<V> s, Vertex<V> g, Set<Vertex<V>> known) {
+    private static <V, E> void BFS(Graph<V, E> graph, Vertex<V> s, Set<Vertex<V>> known,ArrayList<Person> samPerson) {
         LinkedList<Vertex<V>> level = new LinkedList<>();
-        boolean found=false;
         known.add(s);
         level.addLast(s);
-        int counter=0;
+        int counter=1;
         while (!level.isEmpty()){
             LinkedList<Vertex<V>> nextLevel = new LinkedList<>();
             for (Vertex<V> u : level){
@@ -36,18 +40,20 @@ public class Controller {
                     Vertex<V> v = graph.opposite(u,e);
                     if (!known.contains(v)){
                         known.add(v);
-                        if (v.getElement()==g.getElement()){
-                            found=true;
-                            break;
-                        }
+                        checkConnections((Person) s.getElement(), (Person) v.getElement(),counter,samPerson);
                         nextLevel.addLast(v);
                     }
                 }
             }
             counter++;
+            if (counter==6){
+                break;
+            }
             level=nextLevel;
         }
-        return !found ? -1 :counter ;
+    }
+    private static <V, E> void checkConnections(Person s,Person v,int counter,ArrayList<Person> samPerson) {
+
     }
     static <V,E>int DFSComplete(Graph<V,E> g){
         Set<Vertex<V>> known = new HashSet<>();
