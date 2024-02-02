@@ -161,8 +161,8 @@ public class Controller {
                 for (Object c : connectionId) {
                     arrayList.add(Integer.parseInt((String) c));
                 }
-                Person person1 = new Person(Integer.parseInt(id),name,dateOfBirth,universityLocation,field,workplace, set,arrayList);
-                Model.graph.insertVertex(person1);
+                insertPerson(Integer.parseInt(id),name,dateOfBirth,universityLocation,field,workplace, set,arrayList);
+//                Model.graph.insertVertex(person1);
 
             }
         } catch (IOException e) {

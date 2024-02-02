@@ -20,7 +20,7 @@ public class Main {
                     people =Controller.getSimilar(Integer.parseInt(strings[0]),new Scale(strings[1],strings[2],strings[3],strings[4]));
                 }else throw new InvalidInputException();
                 for (Point_person person:people ){
-                    System.out.println("id: "+person.getPerson().getId()+" "/*+"name: "+person.getPerson().getName()*/);
+                    System.out.println("id: "+person.getPerson().getId()+" "+"name: "+person.getPerson().getName());
                 }
             }catch (Exception |InvalidInputException e) {
                 System.out.println(e.getMessage());

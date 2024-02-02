@@ -16,7 +16,6 @@ public class EdgeListGraph<V extends Comparable<V>, E> implements Graph<V, E> {
             return element;
         }
 
-        @Override
         public int numOutgoing() {
             int degree=0;
             for (Edge<E> edge : edges) {
@@ -28,7 +27,6 @@ public class EdgeListGraph<V extends Comparable<V>, E> implements Graph<V, E> {
             return degree;
         }
 
-        @Override
         public int numIncoming() {
             return numOutgoing();
         }
@@ -208,7 +206,6 @@ public class EdgeListGraph<V extends Comparable<V>, E> implements Graph<V, E> {
             if (getEdge(u_vertex, v_vertex) == null) {
                 InnerEdge<E> edge = new InnerEdge<>(u_vertex, v_vertex, element);
                 edge.setPosition(edges.addLast(edge));
-
                 InnerVertex<V> origin = validate(u_vertex);
                 InnerVertex<V> dest = validate(v_vertex);
                 edge.getEndPoints()[0] = origin;
@@ -235,6 +232,13 @@ public class EdgeListGraph<V extends Comparable<V>, E> implements Graph<V, E> {
     public void removeVertex(Vertex<V> v) {
         InnerVertex<V> vertex = validate(v);
         vertices.remove(vertex.getPosition());
+        for (Edge<E> edge : edges){
+            Vertex<V>[] endpoints =validate(edge).endPoints;
+            if (endpoints[0] == v)
+               endpoints[1]=null;
+            else if (endpoints[1] == v)
+                endpoints[0]=null;
+        }
     }
 
     @Override

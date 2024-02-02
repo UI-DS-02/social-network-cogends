@@ -60,7 +60,7 @@ public class AdjacencyMatrixGraph<V extends Comparable<V>,E> implements Graph<V,
     private Edge<E>[][] square;
     private Vertex<V>[] vertices;
     private boolean isDirected;
-    private int numOfEdges;
+    private int numOfEdges=0;
     private int numOfVertices=0;
     private int maxNumVertices=0;
 
