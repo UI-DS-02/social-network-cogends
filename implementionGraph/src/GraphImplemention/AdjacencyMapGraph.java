@@ -26,9 +26,13 @@ public class AdjacencyMapGraph<V extends Comparable<V>, E> implements Graph<V, E
         public Position<Vertex<V>> getPosition() {
             return position;
         }
+
+        @Override
         public int numOutgoing() {
             return outgoing.size();
         }
+
+        @Override
         public int numIncoming() {
             return incoming.size();
         }
